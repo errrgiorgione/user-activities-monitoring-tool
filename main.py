@@ -10,8 +10,10 @@ with open("./windows_processes.txt", 'r') as file:
 user_folders = [
     r"c:\program files",
     r"c:\program files (x86)",
-    fr"c:\users\{user.lower()}\appdata\local\programs",
-    fr"c:\users\{user.lower()}\downloads"
+    fr"c:\users\ktgki\appdata\local\programs",
+    fr"c:\users\ktgki\downloads",
+    #fr"c:\users\{user.lower()}\appdata\local\programs",
+    #fr"c:\users\{user.lower()}\downloads"
 ]
 json_file_path = fr"./activities/activities_{dt.today().weekday()}.json"
 
@@ -56,9 +58,8 @@ while True:
     #add end time to processes
     end_time = dt.now().strftime("%d/%m/%Y %H:%M:%S")
     processes_names = [process.Name for process in processes]
-    for was_running_process in running_processes:
+    for was_running_process in listed_processes:
         if not was_running_process in processes_names and not listed_processes[was_running_process]["end_time"]:
-            running_processes.remove(was_running_process)
             listed_start_time = listed_processes[was_running_process]["start_time"]
             listed_running_time = listed_processes[was_running_process].get("running_time", 0)
             if not listed_running_time: listed_running_time = 0 #running_time is set to None by default in the json
