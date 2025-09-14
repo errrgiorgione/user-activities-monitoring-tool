@@ -10,10 +10,15 @@ with open("./windows_processes.txt", 'r') as file:
 user_folders = [
     r"c:\program files",
     r"c:\program files (x86)",
-    fr"c:\users\{user.lower()}\appdata\local\programs",
-    fr"c:\users\{user.lower()}\downloads"
+    fr"c:\users\ktgki\appdata\local\programs",
+    fr"c:\users\ktgki\downloads",
+    #fr"c:\users\{user.lower()}\appdata\local\programs",
+    #fr"c:\users\{user.lower()}\downloads"
 ]
 json_file_path = fr"./activities/activities_{dt.today().weekday()}.json"
+with open("./preferences.json") as file:
+    preferences = json.load(file)
+ignored_processes = preferences["ignore_processes"]
 
 running_processes = []
 while True:
@@ -31,6 +36,8 @@ while True:
         try:
             owner = process.GetOwner()
             name = process.Name
+            #ignore processes preference
+            if name in ignored_processes: continue
             #short-circuit evaluation
             if name in running_processes or ((user in owner) and (name not in windows_processes) and any(process.ExecutablePath.lower().startswith(folder) for folder in user_folders)):
                 for parent in f.Win32_Process(ProcessId=process.ParentProcessId):

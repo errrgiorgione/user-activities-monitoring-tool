@@ -2,8 +2,13 @@ from datetime import datetime as dt
 import json
 from os import path
 
-column1 = "Process"
-column2 = "Running time (hours)"
+with open("./preferences.json", "r") as file:
+    preferences = json.load(file)
+allowed_time_units = ["hours", "minutes", "seconds"]
+time_unit_preference = preferences["running_time_unit"].lower()
+if not time_unit_preference in allowed_time_units:
+    print("Time unit not allowed, please choose between hours, minutes and seconds")
+    exit()
 
 days = {
     0: "monday",
@@ -32,6 +37,8 @@ while True:
             print(f"No data found for last {days[int(day)]}")
             continue
         
+        column1 = "Process"
+        column2 = f"Running time ({time_unit_preference})"
         print(f"{column1:<30}\t| {column2:<30}\t| State")
         print("-"*100)
         with open(json_file_path, "r") as file:
@@ -42,13 +49,20 @@ while True:
             temp = content[process]["running_time"]
             
             time = temp if temp else (dt.strptime(dt.now().strftime("%d/%m/%Y %H:%M:%S"), "%d/%m/%Y %H:%M:%S") - dt.strptime(content[process]["start_time"], "%d/%m/%Y %H:%M:%S")).total_seconds()
-            time = round(time / 60 / 60, 2)
+            #time unit preference
+            if time_unit_preference == "hours": time = time / 60 / 60
+            elif time_unit_preference == "minutes": time = time / 60
+            time = round(time, 2)
+
             same_day = True if dt.today().weekday() == day else False
 
             if temp: status = "Ended"
             else:
                 if same_day: status = "Still running"
                 else: status = f"Didn't end on {days[int(day)]}"
+            
+            #extension preference
+            if not preferences["show_extensions"]: process = process.split(".")[0]
 
             print(f"{process:<30}\t| {time:<30}\t| {status}")
     except Exception as e:
