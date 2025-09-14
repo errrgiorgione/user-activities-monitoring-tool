@@ -58,16 +58,17 @@ while True:
     #add end time to processes
     end_time = dt.now().strftime("%d/%m/%Y %H:%M:%S")
     processes_names = [process.Name for process in processes]
-    for was_running_process in listed_processes:
-        if not was_running_process in processes_names and not listed_processes[was_running_process]["end_time"]:
-            listed_start_time = listed_processes[was_running_process]["start_time"]
-            listed_running_time = listed_processes[was_running_process].get("running_time", 0)
-            if not listed_running_time: listed_running_time = 0 #running_time is set to None by default in the json
-            user_processes[was_running_process] = { 
-                "start_time": listed_start_time,
-                "end_time": end_time,
-                "running_time": ((dt.strptime(end_time, "%d/%m/%Y %H:%M:%S") - dt.strptime(listed_start_time, "%d/%m/%Y %H:%M:%S")).total_seconds()) + listed_running_time
-            }
+    if listed_processes:
+        for was_running_process in listed_processes:
+            if not was_running_process in processes_names and not listed_processes[was_running_process]["end_time"]:
+                listed_start_time = listed_processes[was_running_process]["start_time"]
+                listed_running_time = listed_processes[was_running_process].get("running_time", 0)
+                if not listed_running_time: listed_running_time = 0 #running_time is set to None by default in the json
+                user_processes[was_running_process] = { 
+                    "start_time": listed_start_time,
+                    "end_time": end_time,
+                    "running_time": ((dt.strptime(end_time, "%d/%m/%Y %H:%M:%S") - dt.strptime(listed_start_time, "%d/%m/%Y %H:%M:%S")).total_seconds()) + listed_running_time
+                }
     
     #ensure ended processes will still be taken into account
     if listed_processes: 
