@@ -10,10 +10,8 @@ with open("./windows_processes.txt", 'r') as file:
 user_folders = [
     r"c:\program files",
     r"c:\program files (x86)",
-    fr"c:\users\ktgki\appdata\local\programs",
-    fr"c:\users\ktgki\downloads",
-    #fr"c:\users\{user.lower()}\appdata\local\programs",
-    #fr"c:\users\{user.lower()}\downloads"
+    fr"c:\users\{user.lower()}\appdata\local\programs",
+    fr"c:\users\{user.lower()}\downloads"
 ]
 json_file_path = fr"./activities/activities_{dt.today().weekday()}.json"
 with open("./preferences.json") as file:
