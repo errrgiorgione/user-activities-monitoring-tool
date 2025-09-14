@@ -31,3 +31,13 @@ user-activities-monitoring-tool/
 Each json file will be modified according to the week day (monday = 0, sunday = 6).
 
 ### Please keep in mind that the [main file](https://github.com/errrgiorgione/user-activities-monitoring-tool/blob/main/main.py) needs to be located in the same folder as the _activities_ folder and the [windows processes](https://github.com/errrgiorgione/user-activities-monitoring-tool/blob/main/windows_processes.txt) file.
+
+# Other info
+
+To improve the user's experience a few preferences can be set in the [preferences](https://github.com/errrgiorgione/user-activities-monitoring-tool/blob/main/preferences.json) json file. The user can define if to ignore some processes, choose a time unit to use to display the collected data and if to show the extensions of the found processes.
+
+Keep in mind that the only time units available are the following ones and that any other time unit will trigger an error:
+
+- Hours
+- Minutes
+- Seconds
