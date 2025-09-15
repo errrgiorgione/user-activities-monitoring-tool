@@ -5,7 +5,6 @@ ctfmon.exe
 desktop.ini
 dllhost.exe
 dwm.exe
-explorer.exe
 hiberfil.sys
 internat.exe
 kernel32.dll

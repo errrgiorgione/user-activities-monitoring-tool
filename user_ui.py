@@ -1,8 +1,11 @@
 from datetime import datetime as dt
 import json
 from os import path
+from sys import exit
 
-with open("./preferences.json", "r") as file:
+#preferences_path = path.abspath(path.join(path.dirname(__file__), 'preferences.json'))
+
+with open(r"C:\Users\ktgki\Desktop\scripts\user-activities-monitoring-tool\preferences.json", "r") as file:
     preferences = json.load(file)
 allowed_time_units = ["hours", "minutes", "seconds"]
 time_unit_preference = preferences["running_time_unit"].lower()
@@ -59,11 +62,14 @@ while True:
             if temp: status = "Ended"
             else:
                 if same_day: status = "Still running"
-                else: status = f"Didn't end on {days[int(day)]}"
+                else: 
+                    status = f"Didn't end on {days[int(day)]}"
             
             #extension preference
             if not preferences["show_extensions"]: process = process.split(".")[0]
 
             print(f"{process:<30}\t| {time:<30}\t| {status}")
+    except KeyboardInterrupt:
+        exit(1)
     except Exception as e:
         print(e)
